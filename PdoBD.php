@@ -26,7 +26,7 @@ class PdoBD {
     }
 
     public function getConnexion($loginInterv, $md5Password) {
-        $req = "select * from Intervenant where loginInterv = :login and md5Password = :mdp ";
+        $req = "select * from Intervenant where loginInterv = :login and md5Password = md5(:mdp) ";
         $st = $this->pdo->prepare($req);
         $st->bindValue(":login", $loginInterv);
         $st->bindValue(":mdp", $md5Password);
@@ -48,14 +48,14 @@ class PdoBD {
     }
     
     public function getSite() {
-        $req = "select codeSite from Site";
+        $req = "select * from Site";
         $st = $this->pdo->prepare($req);
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
     
     public function addIntervenant($loginInterv, $md5Password, $nomInterv, $prenomInterv, $mail, $actif, $codeRole, $codeSite) {
-        $req = "insert into Intervenant(loginInterv, md5Password, nomInterv, prenomInterv, mail, actif, codeRole, codeSite) values (:login , :mdp , :nom , :prenom , :mail , :actif , :role , :site)";
+        $req = "insert into Intervenant(loginInterv, md5Password, nomInterv, prenomInterv, mail, actif, codeRole, codeSite) values (:login , md5(:mdp) , :nom , :prenom , :mail , :actif , :role , :site)";
         $st = $this->pdo->prepare($req);
         $st->bindValue(":login", $loginInterv);
         $st->bindValue(":mdp", $md5Password);
