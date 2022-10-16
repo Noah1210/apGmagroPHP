@@ -40,20 +40,21 @@ class PdoBD {
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function getRole() {
         $req = "select codeRole from Role";
         $st = $this->pdo->prepare($req);
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function getSite() {
         $req = "select * from Site";
         $st = $this->pdo->prepare($req);
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function addIntervenant($loginInterv, $md5Password, $nomInterv, $prenomInterv, $mail, $actif, $codeRole, $codeSite) {
         $req = "insert into Intervenant(loginInterv, md5Password, nomInterv, prenomInterv, mail, actif, codeRole, codeSite) values (:login , md5(:mdp) , :nom , :prenom , :mail , :actif , :role , :site)";
         $st = $this->pdo->prepare($req);
@@ -66,12 +67,12 @@ class PdoBD {
         $st->bindValue(":role", $codeRole);
         $st->bindValue(":site", $codeSite);
         $res = $st->execute();
-        if($res){
+        if ($res) {
             return res;
         }
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+
     public function updateIntervenant($loginInterv, $md5Password, $nomInterv, $prenomInterv, $mail, $actif, $codeRole, $codeSite, $oldLogin) {
         $req = "UPDATE Intervenant set loginInterv = :login ,  md5Password = :mdp , nomInterv = :nom , prenomInterv = :prenom , mail = :mail , actif = :actif , codeRole = :role , codeSite = :site WHERE loginInterv = :oldLogin ";
         $st = $this->pdo->prepare($req);
@@ -85,21 +86,69 @@ class PdoBD {
         $st->bindValue(":site", $codeSite);
         $st->bindValue(":oldLogin", $oldLogin);
         $res = $st->execute();
-        if($res){
+        if ($res) {
             return res;
         }
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
-    
-    public function delIntervenant($loginInterv){
+
+    public function delIntervenant($loginInterv) {
         $req = "DELETE FROM Intervenant WHERE  loginInterv = :login";
         $st = $this->pdo->prepare($req);
         $st->bindValue(":login", $loginInterv);
         $res = $st->execute();
         echo $res;
-        if($res){
+        if ($res) {
             return res;
         }
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function addSite($codeSite, $nomSite, $codePostal, $ville, $adresse, $latitude, $longitude) {
+        $req = "insert into Site(codeSite, nomSite, codePostal, ville, adresse, latitude, longitude) values (:cs, :nom, :cp, :ville, :adresse, :lat, :longi)";
+        $st = $this->pdo->prepare($req);
+        $st->bindValue(":cs", $codeSite);
+        $st->bindValue(":nom", $nomSite);
+        $st->bindValue(":cp", $codePostal);
+        $st->bindValue(":ville", $ville);
+        $st->bindValue(":adresse", $adresse);
+        $st->bindValue(":lat", $latitude);
+        $st->bindValue(":longi", $longitude);
+        $res = $st->execute();
+        if ($res) {
+            return res;
+        }
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateSite($codeSite, $nomSite, $codePostal, $ville, $adresse, $latitude, $longitude, $oldCS) {
+        $req = "UPDATE Site set codeSite = :cs , nomSite = :nom , codePostal = :cp , ville = :ville , adresse = :adresse , latitude = :lat , longitude = :longi WHERE codeSite = :oldCS";
+        $st = $this->pdo->prepare($req);
+        $st->bindValue(":cs", $codeSite);
+        $st->bindValue(":nom", $nomSite);
+        $st->bindValue(":cp", $codePostal);
+        $st->bindValue(":ville", $ville);
+        $st->bindValue(":adresse", $adresse);
+        $st->bindValue(":lat", $latitude);
+        $st->bindValue(":longi", $longitude);
+        $st->bindValue(":oldCS", $oldCS);
+        $res = $st->execute();
+        if ($res) {
+            return res;
+        }
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function delSite($codeSite) {
+        $req = "DELETE FROM Site WHERE  codeSite = :cs";
+        $st = $this->pdo->prepare($req);
+        $st->bindValue(":cs", $codeSite);
+        $res = $st->execute();
+        echo $res;
+        if ($res) {
+            return res;
+        }
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

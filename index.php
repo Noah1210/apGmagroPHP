@@ -102,6 +102,46 @@ if ($uc && $uc != '') {
                     echo 0;
                 }
                 break;
+            case 'addSite' :
+                $codeSite = filter_input(INPUT_GET, "codeSite", FILTER_SANITIZE_STRING);
+                $nomSite = filter_input(INPUT_GET, "nomSite", FILTER_SANITIZE_STRING);
+                $codePostal = filter_input(INPUT_GET, "codePostal", FILTER_SANITIZE_STRING);
+                $ville = filter_input(INPUT_GET, "ville", FILTER_SANITIZE_STRING);
+                $adresse = filter_input(INPUT_GET, "adresse", FILTER_SANITIZE_STRING);
+                $latitude = filter_input(INPUT_GET, "latitude", FILTER_SANITIZE_STRING);
+                $longitude = filter_input(INPUT_GET, "longitude", FILTER_SANITIZE_STRING);
+                $site = $pdo->addSite($codeSite, $nomSite, $codePostal, $ville, $adresse, $latitude, $longitude);
+                if ($site) {
+                    echo json_encode($site, JSON_PRETTY_PRINT);
+                } else {
+                    echo 0;
+                }
+                break;
+            case 'updateSite' :
+                $codeSite = filter_input(INPUT_GET, "codeSite", FILTER_SANITIZE_STRING);
+                $nomSite = filter_input(INPUT_GET, "nomSite", FILTER_SANITIZE_STRING);
+                $codePostal = filter_input(INPUT_GET, "codePostal", FILTER_SANITIZE_STRING);
+                $ville = filter_input(INPUT_GET, "ville", FILTER_SANITIZE_STRING);
+                $adresse = filter_input(INPUT_GET, "adresse", FILTER_SANITIZE_STRING);
+                $latitude = filter_input(INPUT_GET, "latitude", FILTER_SANITIZE_STRING);
+                $longitude = filter_input(INPUT_GET, "longitude", FILTER_SANITIZE_STRING);
+                $oldCS = filter_input(INPUT_GET, "oldCS", FILTER_SANITIZE_STRING);
+                $site = $pdo->updateSite($codeSite, $nomSite, $codePostal, $ville, $adresse, $latitude, $longitude, $oldCS);
+                if ($site) {
+                    echo json_encode($site, JSON_PRETTY_PRINT);
+                } else {
+                    echo 0;
+                }
+                break;
+            case 'delSite' :
+                $codeSite = filter_input(INPUT_GET, "codeSite", FILTER_SANITIZE_STRING);
+                $delSite = $pdo->delSite($codeSite);
+                if ($delSite) {
+                    echo json_encode($delSite, JSON_PRETTY_PRINT);
+                } else {
+                    echo 0;
+                }
+                break;
         }
     }
 } else {
