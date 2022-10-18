@@ -151,4 +151,10 @@ class PdoBD {
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getTypesMachine() {
+        $req = "select * from TypeMachine";
+        $st = $this->pdo->prepare($req);
+        $st->execute();
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

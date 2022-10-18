@@ -142,6 +142,14 @@ if ($uc && $uc != '') {
                     echo 0;
                 }
                 break;
+            case 'getTypesMachine' :
+                $TypesMachine = $pdo->getTypesMachine();
+                if ($TypesMachine) {
+                    echo json_encode($TypesMachine, JSON_PRETTY_PRINT);
+                } else {
+                    echo 0;
+                }
+                break;
         }
     }
 } else {
