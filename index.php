@@ -150,6 +150,46 @@ if ($uc && $uc != '') {
                     echo 0;
                 }
                 break;
+                case 'addTypeMachine' :
+                $json = file_get_contents('php://input');
+                $data = json_decode($json);
+                $codeType = filter_input(INPUT_GET, "codeType", FILTER_SANITIZE_STRING);
+                $nomType = filter_input(INPUT_GET, "nomType", FILTER_SANITIZE_STRING);
+                $codeSite = filter_input(INPUT_GET, "codeSite", FILTER_SANITIZE_STRING);
+                if ($codeSite == "null") {
+                    $codeSite = null;
+                }
+                $TypeMachine = $pdo->addTypeMachine($codeType, $codeSite, $nomType);
+                $img = base64_decode($data->imageTM);
+                file_put_contents("/home/SIO/npardon/public_html/gmagro/photos/" . $codeType . ".jpg", $img);
+                if ($TypeMachine) {
+                    echo json_encode($TypeMachine, JSON_PRETTY_PRINT);
+                } else {
+                    echo 0;
+                }
+                break;
+            case 'updateTypeMachine' :
+                $json = file_get_contents('php://input');
+                $data = json_decode($json);
+                $codeType = filter_input(INPUT_GET, "codeType", FILTER_SANITIZE_STRING);
+                $nomType = filter_input(INPUT_GET, "nomType", FILTER_SANITIZE_STRING);
+                $codeSite = filter_input(INPUT_GET, "codeSite", FILTER_SANITIZE_STRING);
+                $oldCodeT = filter_input(INPUT_GET, "oldCodeType", FILTER_SANITIZE_STRING);
+                if ($codeSite == "null") {
+                    $codeSite = null;
+                }
+                $TypeMachine = $pdo->updateTypeMachine($codeType, $codeSite, $nomType, $oldCodeT);
+                if ($data->imageTM != null) {
+                    $img = base64_decode($data->imageTM);
+                    file_put_contents("/home/SIO/npardon/public_html/gmagro/photos/" . $codeType . ".jpg", $img);
+                }
+               
+                if ($TypeMachine) {
+                    echo json_encode($TypeMachine, JSON_PRETTY_PRINT);
+                } else {
+                    echo 0;
+                }
+                break;
         }
     }
 } else {

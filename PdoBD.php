@@ -157,4 +157,42 @@ class PdoBD {
         $st->execute();
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function addTypeMachine($codeType, $codeSite, $nomType) {
+        $req = "insert into TypeMachine(codeType, codeSite, nomType) values (:ct, :cs, :nt)";
+        $st = $this->pdo->prepare($req);
+        $st->bindValue(":cs", $codeSite);
+        $st->bindValue(":ct", $codeType);
+        $st->bindValue(":nt", $nomType);
+        $res = $st->execute();
+        if ($res) {
+            return res;
+        }
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateTypeMachine($codeType, $codeSite, $nomType, $oldCodeT) {
+        $req = "UPDATE TypeMachine set codeType = :ct , codeSite = :cs , nomType = :nt WHERE codeType = :oct";
+        $st = $this->pdo->prepare($req);
+        $st->bindValue(":cs", $codeSite);
+        $st->bindValue(":ct", $codeType);
+        $st->bindValue(":nt", $nomType);
+        $st->bindValue(":oct", $oldCodeT);
+        $res = $st->execute();
+        if ($res) {
+            return res;
+        }
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function delTypeMachine($codeType) {
+        $req = "DELETE FROM TypeMachine WHERE  codeType = :ct";
+        $st = $this->pdo->prepare($req);
+        $st->bindValue(":ct", $codeType);
+        $res = $st->execute();
+        echo $res;
+        if ($res) {
+            return $res;
+        }
+        return $st->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
