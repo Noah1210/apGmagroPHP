@@ -184,7 +184,7 @@ class PdoBD {
         return $st->fetchAll(PDO::FETCH_ASSOC);
     }
     
-    public function delTypeMachine($codeType) {
+    public function delType($codeType) {
         $req = "DELETE FROM TypeMachine WHERE  codeType = :ct";
         $st = $this->pdo->prepare($req);
         $st->bindValue(":ct", $codeType);
